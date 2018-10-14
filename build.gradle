@@ -134,7 +134,7 @@ def generatePom = { pom ->
     pom.withXml {
         def root = it.asNode()
         root.appendNode('name', project.name)
-        root.appendNode('description', 'Template forkotlin (JVM, JS, Native and COMMON)')
+        root.appendNode('description', 'kortemplate for kotlin (JVM, JS, Native and COMMON)')
         root.appendNode('url', 'https://github.com/korlibs/kortemplate')
         root.children().last() + pomBaseData
     }
