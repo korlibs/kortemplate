@@ -99,7 +99,7 @@ task populateNodeModules {
 
 task runMocha(type: NodeTask, dependsOn: [jsCompilations.test.compileKotlinTaskName, addYarnDeps, populateNodeModules]) {
     script = file("$buildDir/node_modules/mocha/bin/mocha")
-    args = [relativePath("${jsCompilations.test.output.first()}/kortemplate_test.js")]
+    args = ["--timeout", "15000", relativePath("${jsCompilations.test.output.first()}/${project.name}_test.js")]
 }
 
 jsTest.dependsOn runMocha
