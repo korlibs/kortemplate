@@ -162,3 +162,5 @@ if (publishUser && publishPassword) {
         }
     }
 }
+
+apply from: 'build.project.gradle'
