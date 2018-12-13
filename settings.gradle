@@ -14,10 +14,10 @@ pluginManagement {
     }
 }
 
+enableFeaturePreview('GRADLE_METADATA')
+
 rootProject.name = (new File(rootProject.projectDir, 'gradle.properties')).withInputStream {
     Properties properties = new Properties()
     properties.load(it)
     properties
 }.getProperty("project.name")
-
-//enableFeaturePreview('GRADLE_METADATA')

@@ -28,7 +28,7 @@ kotlin {
                 }
                 compileTestKotlinJs.kotlinOptions {
                     languageVersion = "1.3"
-                    moduleKind = "commonjs"
+                    moduleKind = "umd"
                 }
             }
         }
@@ -152,7 +152,7 @@ if (publishUser && publishPassword) {
                     username publishUser
                     password publishPassword
                 }
-                url 'https://api.bintray.com/maven/soywiz/soywiz/korlibs/'
+                url "https://api.bintray.com/maven/soywiz/soywiz/${project.property('project.package')}/"
                 //url "https://api.bintray.com/content/soywiz/soywiz/korlibs/$projectVersion"
             }
         }
@@ -163,4 +163,6 @@ if (publishUser && publishPassword) {
     }
 }
 
-apply from: 'build.project.gradle'
+if (project.file('build.project.gradle').exists()) {
+    apply from: project.file('build.project.gradle')
+}
