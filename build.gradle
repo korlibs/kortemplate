@@ -82,7 +82,7 @@ node {
 
 def jsCompilations = kotlin.targets.js.compilations
 task installMocha(type: NpmTask) {
-    onlyIf { !(new File(node.nodeModulesDir, "node_modules/mocha")).exists() }
+    onlyIf { !(new File(node.nodeModulesDir, "mocha")).exists() }
     args = ["install", "mocha@5.2.0"]
 }
 
