@@ -42,6 +42,8 @@ allprojects {
 def hasAndroid = ext.hasAndroid
 
 subprojects {
+    if (project.name == "template") return
+
     apply plugin: 'kotlin-multiplatform'
     apply plugin: 'com.moowork.node'
 
