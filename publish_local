@@ -1,4 +1,5 @@
 #!/bin/bash
 ./gradlew publishToMavenLocal
-./gradlew_linux publishToMavenLocal
-./gradlew_win publishToMavenLocal
+./gradlew_linux publishLinuxX64PublicationToMavenLocal
+./gradlew_win publishMingwX64PublicationToMavenLocal
+
