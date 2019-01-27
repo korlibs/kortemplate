@@ -52,8 +52,8 @@ allprojects {
         google()
     }
 
-    if (project.file("build.project.gradle").exists()) {
-        apply(from = project.file("build.project.gradle"))
+    if (project.file("build.project.gradle.kts").exists()) {
+        apply(from = project.file("build.project.gradle.kts"))
     }
 }
 
@@ -74,8 +74,6 @@ subprojects {
 
     if (hasAndroid) {
         apply(plugin = "com.android.library")
-        //apply(plugin = "org.jetbrains.kotlin.android")
-        //apply(plugin = "org.jetbrains.kotlin.android.extensions")
         extensions.getByType<com.android.build.gradle.LibraryExtension>().apply {
             compileSdkVersion(28)
             defaultConfig {
