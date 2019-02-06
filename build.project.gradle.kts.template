@@ -4,7 +4,7 @@ val pname = "korim"
 
 File(projectDir, "$pname/src/commonMain/kotlin/com/soywiz/$pname/internal/${pname.capitalize()}Version.kt").apply {
 	parentFile.mkdirs()
-	val newText = "package com.soywiz.$pname.internal\n\ninternal const val ${pname.toUpperCase()}_VERSION = \"${project.property("projectVersion")}\""
+	val newText = "package com.soywiz.$pname.internal\n\ninternal const val ${pname.toUpperCase()}_VERSION = \"${project.version}\""
 	if (!exists() || (readText() != newText)) writeText(newText)
 }
 
