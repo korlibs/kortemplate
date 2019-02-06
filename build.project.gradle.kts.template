@@ -55,8 +55,19 @@ subprojects {
 		dependencies {
 			for (dep in deps) {
 				if (dep.commonName != null) {
-					add("commonMainApi", dep.commonName)
-					add("commonTestImplementation", dep.commonName)
+                    for (target in listOf("android", "iosArm64", "iosArm32", "iosX64", "js", "jvm", "linuxX64", "macosX64", "mingwX64", "metadata")) {
+                        val suffix = "-${target.toLowerCase()}"
+                        val base = when (target) {
+                            "metadata" -> "common"
+                            else -> target
+                        }
+
+                        val (group, name, version) = dep.commonName.split(":", limit = 3)
+                        val packed = "$group:$name$suffix:$version"
+
+                        add("${base}MainApi", packed)
+                        add("${base}TestImplementation", packed)
+                    }
 				}
 				if (dep.project != null) {
 					add("commonMainApi", rootProject.project(dep.project))
@@ -67,3 +78,4 @@ subprojects {
 		}
 	}
 }
+
