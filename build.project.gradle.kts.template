@@ -49,7 +49,7 @@ class Deps {
 fun DepKorlib(name: String) = Dep("com.soywiz:$name:${project.property("${name}Version")}")
 class Dep(val commonName: String? = null, val project: String ? = null, val register: (DependencyHandlerScope.() -> Unit)? = null)
 
-val ALL_TARGETS = listOf("android", "iosArm64", "iosArm32", "iosX64", "js", "jvm", "linuxX64", "macosX64", "mingwX64", "metadata")
+val ALL_TARGETS = (if (hasAndroid) listOf("android") else listOf()) + listOf("iosArm64", "iosArm32", "iosX64", "js", "jvm", "linuxX64", "macosX64", "mingwX64", "metadata")
 
 fun DependencyHandler.addCommon(group: String, name: String, version: String, targets: List<String> = ALL_TARGETS) {
     for (target in targets) {
