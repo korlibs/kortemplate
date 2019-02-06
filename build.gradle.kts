@@ -403,3 +403,7 @@ subprojects {
 if (project.file("build.project.gradle.kts").exists()) {
 	apply(from = project.file("build.project.gradle.kts"))
 }
+
+if (project.file("build.generate.gradle.kts").exists()) {
+	apply(from = project.file("build.generate.gradle.kts"))
+}

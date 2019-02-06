@@ -15,6 +15,9 @@ pluginManagement {
     }
 }
 
+try {
 rootProject.name = java.util.Properties().apply { load(File(rootProject.projectDir, "gradle.properties").readText().reader()) }.getProperty("project.name")
+} catch (e: Throwable) {
+}
 
-include(":kortemplate")
+//include(":kortemplate")
