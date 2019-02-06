@@ -49,25 +49,34 @@ class Deps {
 fun DepKorlib(name: String) = Dep("com.soywiz:$name:${project.property("${name}Version")}")
 class Dep(val commonName: String? = null, val project: String ? = null, val register: (DependencyHandlerScope.() -> Unit)? = null)
 
+val ALL_TARGETS = listOf("android", "iosArm64", "iosArm32", "iosX64", "js", "jvm", "linuxX64", "macosX64", "mingwX64", "metadata")
+
+fun DependencyHandler.addCommon(group: String, name: String, version: String, targets: List<String> = ALL_TARGETS) {
+    for (target in targets) {
+        val suffix = "-${target.toLowerCase()}"
+        val base = when (target) {
+            "metadata" -> "common"
+            else -> target
+        }
+
+        val packed = "$group:$name$suffix:$version"
+        add("${base}MainApi", packed)
+        add("${base}TestImplementation", packed)
+    }
+}
+
+fun DependencyHandler.addCommon(dependency: String, targets: List<String> = ALL_TARGETS) {
+    val (group, name, version) = dependency.split(":", limit = 3)
+    return addCommon(group, name, version, targets)
+}
+
 subprojects {
 	val deps = projDeps[project.name]
 	if (deps != null) {
 		dependencies {
 			for (dep in deps) {
 				if (dep.commonName != null) {
-                    for (target in listOf("android", "iosArm64", "iosArm32", "iosX64", "js", "jvm", "linuxX64", "macosX64", "mingwX64", "metadata")) {
-                        val suffix = "-${target.toLowerCase()}"
-                        val base = when (target) {
-                            "metadata" -> "common"
-                            else -> target
-                        }
-
-                        val (group, name, version) = dep.commonName.split(":", limit = 3)
-                        val packed = "$group:$name$suffix:$version"
-
-                        add("${base}MainApi", packed)
-                        add("${base}TestImplementation", packed)
-                    }
+                    addCommon(dep.commonName)
 				}
 				if (dep.project != null) {
 					add("commonMainApi", rootProject.project(dep.project))
