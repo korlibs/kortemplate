@@ -46,7 +46,33 @@ class KorlibsExtension(val project: Project) {
         }
     }
 
-    fun dependencyMulti(name: String) = project {
+    val ALL_TARGETS = listOf("android", "iosArm64", "iosArm32", "iosX64", "js", "jvm", "linuxX64", "macosX64", "mingwX64", "metadata")
+
+    @JvmOverloads
+    fun dependencyMulti(group: String, name: String, version: String, targets: List<String> = ALL_TARGETS, suffixCommonRename: Boolean = false, androidIsJvm: Boolean = false) = project {
+        dependencies {
+            for (target in targets) {
+                val base = when (target) {
+                    "metadata" -> "common"
+                    else -> target
+                }
+                val suffix = when {
+                    target == "android" && androidIsJvm -> "-jvm"
+                    target == "metadata" && suffixCommonRename -> "-common"
+                    else -> "-${target.toLowerCase()}"
+                }
+
+                val packed = "$group:$name$suffix:$version"
+                add("${base}MainApi", packed)
+                add("${base}TestImplementation", packed)
+            }
+        }
+    }
+
+    @JvmOverloads
+    fun dependencyMulti(dependency: String, targets: List<String> = ALL_TARGETS) {
+        val (group, name, version) = dependency.split(":", limit = 3)
+        return dependencyMulti(group, name, version, targets)
     }
 
     @JvmOverloads
