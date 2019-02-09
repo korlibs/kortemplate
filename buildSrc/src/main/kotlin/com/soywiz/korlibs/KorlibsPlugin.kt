@@ -43,6 +43,7 @@ class KorlibsExtension(val project: Project) {
     fun dependencyProject(name: String) = project {
         dependencies {
             add("commonMainApi", project(name))
+            add("commonTestImplementation", project(name))
         }
     }
 
