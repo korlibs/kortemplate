@@ -79,6 +79,7 @@ class KorlibsExtension(val project: Project) {
     fun exposeVersion(name: String = project.name) {
         project.projectDir["src/commonMain/kotlin/com/soywiz/$name/internal/${name.capitalize()}Version.kt"].text = """
             package com.soywiz.$name.internal
+
             internal const val ${name.toUpperCase()}_VERSION = "${project.version}"
         """.trimIndent()
     }
