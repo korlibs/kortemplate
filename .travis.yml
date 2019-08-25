@@ -1,7 +1,5 @@
 stages:
   - test
-  - name: bintray
-    if: branch = master
   - name: publish
     if: branch = master
 jobs:
@@ -30,7 +28,8 @@ jobs:
     env: KBUILD=windows
     language: shell # java is not supported but jdk is installed
     script:
-    - powershell -Command "cmd /c travis_win.bat"
+      - powershell -Command "cmd /c travis_win.bat"
+      - if [[ "$TRAVIS_BRANCH" == "master" ]]; then; powershell -Command "cmd /c travis_win_bintray.bat"; fi
   - os: osx
     stage: test
     env:
@@ -45,28 +44,8 @@ jobs:
     before_script:
       - echo before_script
     script:
-    - ./gradlew -s -i check
-  - os: windows
-    stage: bintray
-    env: KBUILD=windows
-    language: shell # java is not supported but jdk is installed
-    script:
-      - powershell -Command "cmd /c travis_win_bintray.bat"
-  - os: osx
-    stage: bintray
-    env:
-      KBUILD=macos
-      JAVA_OPTS=-Xmx2g
-    language: java
-    jdk: openjdk10
-    before_install:
-      - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
-    install:
-      - echo install
-    before_script:
-      - echo before_script
-    script:
-      - ./gradlew -s -i localPublishToBintrayIfRequired
+      - ./gradlew -s -i check
+      - if [[ "$TRAVIS_BRANCH" == "master" ]]; then; ./gradlew -s -i localPublishToBintrayIfRequired; fi
   - os: linux
     stage: publish
     language: android
@@ -85,4 +64,4 @@ jobs:
     before_script:
       - echo before_script
     script:
-      - ./gradlew -s -i actuallyPublishBintray
+      - if [[ "$TRAVIS_BRANCH" == "master" ]]; then; ./gradlew -s -i actuallyPublishBintray; fi
