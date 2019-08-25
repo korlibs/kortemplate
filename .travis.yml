@@ -1,11 +1,11 @@
 stages:
-  - test
+  - test_and_upload
   - name: publish
     if: branch = master
 jobs:
   include:
   - os: linux
-    stage: test
+    stage: test_and_upload
     language: android
     android:
       components:
@@ -24,14 +24,14 @@ jobs:
     script:
     - ./gradlew -s -i assemble check lint testDebugUnitTest
   - os: windows
-    stage: test
+    stage: test_and_upload
     env: KBUILD=windows
     language: shell # java is not supported but jdk is installed
     script:
       - powershell -Command "cmd /c travis_win.bat"
       - if [[ "$TRAVIS_BRANCH" == "master" ]]; then; powershell -Command "cmd /c travis_win_bintray.bat"; fi
   - os: osx
-    stage: test
+    stage: test_and_upload
     env:
       KBUILD=macos
       JAVA_OPTS=-Xmx2g
