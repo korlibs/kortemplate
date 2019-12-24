@@ -12,7 +12,7 @@ Use with gradle (uploaded to bintray and synchronized to jcenter):
 def kortemplateVersion = "1.0.0-alpha-1"
 
 repositories {
-    maven { url "https://dl.bintray.com/soywiz/soywiz" }
+    maven { url "https://dl.bintray.com/korlibs/korlibs" }
 }
 
 compile "com.soywiz:kortemplate-jvm:$kortemplateVersion"      // JVM/Android
